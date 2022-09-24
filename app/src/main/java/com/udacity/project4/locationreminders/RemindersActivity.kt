@@ -17,6 +17,7 @@ import kotlinx.android.synthetic.main.activity_reminders.*
  */
 class RemindersActivity : AppCompatActivity() {
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_reminders)
