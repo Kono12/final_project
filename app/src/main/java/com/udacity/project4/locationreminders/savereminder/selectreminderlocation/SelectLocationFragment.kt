@@ -149,7 +149,7 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback{
         }
 
         // map style
-     //   map.setMapStyle(MapStyleOptions.loadRawResourceStyle(requireContext(), R.raw.map_style))
+         setMapStyle(map)
 
         var perm =ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
         if (perm == PackageManager.PERMISSION_GRANTED) {
@@ -205,4 +205,16 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback{
         }
     }
 
+    private fun setMapStyle(map: GoogleMap) {
+        try {
+            // Customize the styling of the base map using a JSON object defined
+            // in a raw resource file.
+            val success = map.setMapStyle(
+                MapStyleOptions.loadRawResourceStyle(
+                    activity,
+                    R.raw.my_map
+                )
+            )
+        }catch (e:Exception){}
+    }
 }

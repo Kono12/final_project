@@ -29,16 +29,11 @@ class AuthenticationActivity : AppCompatActivity() {
         sharedPreference = getSharedPreferences(getString(R.string.shared), Context.MODE_PRIVATE)
         editor = sharedPreference.edit()
 
-//          TODO: If the user was authenticated, send him to RemindersActivity
 
         var haslogged = sharedPreference.getBoolean("hasLogged",false)
         if (haslogged){
         startActivity(Intent(this, RemindersActivity::class.java))
         finish()}
-//         TODO: Implement the create account and sign in using FirebaseUI, use sign in using email and sign in using Google
-
-
-
     }
 
     fun LOGIN_CLICKED(view: View) {
