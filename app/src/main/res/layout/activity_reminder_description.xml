@@ -15,19 +15,38 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:orientation="vertical"
+        android:background="@color/white"
         tools:context=".locationreminders.ReminderDescriptionActivity">
-        <!--TODO: add the design of the reminder details-->
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Reminder Details"
-            android:textSize="@dimen/text_size_large"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+       <TextView
+           android:id="@+id/reminderName"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:textColor="@color/colorPrimary"
+           tools:text="Name"
+           android:textSize="38sp"
+           android:layout_marginBottom="30dp"
+           />
+
+       <TextView
+           android:id="@+id/reminderDescription"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:textColor="@color/black"
+           tools:text="description"
+           android:textSize="24sp"
+           android:layout_marginBottom="30dp"
+           />
+
+       <TextView
+           android:id="@+id/reminderPoint"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:textColor="@color/colorAccent"
+           tools:text="point"
+           android:textSize="24sp"
+           android:layout_marginBottom="30dp"
+           />
 
     </LinearLayout>
 </layout>
