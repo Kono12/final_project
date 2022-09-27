@@ -7,7 +7,6 @@ import com.udacity.project4.locationreminders.data.dto.Result
 class FakeDataSource : ReminderDataSource {
 
     // fake data source to act as a double to the real data source
-
     var reminderList = mutableListOf<ReminderDTO>()
 
     private var foundError = false

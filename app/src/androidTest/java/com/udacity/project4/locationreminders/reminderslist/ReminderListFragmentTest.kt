@@ -42,6 +42,7 @@ import org.mockito.Mockito
 @MediumTest
 class ReminderListFragmentTest : AutoCloseKoinTest() {
 
+    // creating repo and context to be used in our test
     private lateinit var repository: ReminderDataSource
     private lateinit var appContext: Application
 
@@ -53,19 +54,16 @@ class ReminderListFragmentTest : AutoCloseKoinTest() {
     fun init() {
         stopKoin()//stop the original app koin
 
+        // initialising the context object
         appContext = getApplicationContext()
+        //creating view models
         val modulee = module {
             viewModel {
-                RemindersListViewModel(
-                    appContext,
-                    get() as ReminderDataSource
-                )
+
+                RemindersListViewModel(appContext, get() as ReminderDataSource)
             }
             single {
-                SaveReminderViewModel(
-                    appContext,
-                    get() as ReminderDataSource
-                )
+                SaveReminderViewModel(appContext, get() as ReminderDataSource)
             }
             single { RemindersLocalRepository(get()) as ReminderDataSource }
             single { LocalDB.createRemindersDao(appContext) }
@@ -101,21 +99,26 @@ class ReminderListFragmentTest : AutoCloseKoinTest() {
     //testing navigations
     @Test
     fun testFragmentsNavigation() {
+
+        // launching our fragment (ReminderListFragment)
         val fragmentScenario = launchFragmentInContainer<ReminderListFragment>(Bundle(), R.style.AppTheme)
         dataBindingIdlingResource.monitorFragment(fragmentScenario)
-
+        //creating mock object with our nav controller with our fragment
         val navController = Mockito.mock(NavController::class.java)
-        fragmentScenario.onFragment {
-            Navigation.setViewNavController(it.view!!, navController)
-        }
+        //assign the navController to our fragment
+        fragmentScenario.onFragment { Navigation.setViewNavController(it.view!!, navController) }
+        // clicking on button addReminder to navigate
         Espresso.onView(withId(R.id.addReminderFAB)).perform(ViewActions.click())
+        //verify that the navigation was called with no problem
         Mockito.verify(navController).navigate(ReminderListFragmentDirections.toSaveReminder())
     }
 
     @Test
     fun testNoDataDisplayed() {
+        //openning our fragment
         val fragmentScenario = launchFragmentInContainer<ReminderListFragment>(Bundle(), R.style.AppTheme)
         dataBindingIdlingResource.monitorFragment(fragmentScenario)
+        // making sure that if there is no data it prints No Data
         Espresso.onView(ViewMatchers.withText(R.string.no_data)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
 
     }

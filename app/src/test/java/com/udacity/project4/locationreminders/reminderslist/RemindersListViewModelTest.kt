@@ -8,6 +8,7 @@ import com.udacity.project4.locationreminders.data.FakeDataSource
 import com.udacity.project4.locationreminders.data.dto.ReminderDTO
 import com.udacity.project4.locationreminders.savereminder.MainCoroutine
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.test.runBlockingTest
 import org.hamcrest.CoreMatchers
 import org.hamcrest.MatcherAssert
@@ -35,7 +36,7 @@ class RemindersListViewModelTest {
     @get:Rule
     var mainCoroutine = MainCoroutine()
 
-
+    // to get new instance of view model in each test
     @Before
     fun setupViewModel() {
         fakeDataSource = FakeDataSource()
@@ -45,10 +46,14 @@ class RemindersListViewModelTest {
     }
 
     @Test
-    fun testShouldReturnError () = runBlockingTest  {
+    fun testShouldReturn_Error () = runBlockingTest  {
+
         fakeDataSource.setShouldReturnError(true)
+        // creating reminder for testing
         saveReminderFakeData()
+        //loading reminders from DB
         remindersViewModel.loadReminders()
+        //making sure snack bar says couldn't find reminders when result is error
         MatcherAssert.assertThat(
             remindersViewModel.showSnackBar.value, CoreMatchers.`is`("couldn't find reminders")
         )
@@ -56,10 +61,13 @@ class RemindersListViewModelTest {
 
     @Test
     fun check_loading() = runBlockingTest {
+        //pausing our dispatcher so loading is visible
         mainCoroutine.pauseDispatcher()
         saveReminderFakeData()
         remindersViewModel.loadReminders()
+        //it should stay visible untill now
         MatcherAssert.assertThat(remindersViewModel.showLoading.value, CoreMatchers.`is`(true))
+        //after resuming loading should diappear
         mainCoroutine.resumeDispatcher()
         MatcherAssert.assertThat(remindersViewModel.showLoading.value, CoreMatchers.`is`(false))
     }
@@ -70,6 +78,7 @@ class RemindersListViewModelTest {
 
     @After
     fun tearDown() {
+        //closing our koin after done
         stopKoin()
     }
 

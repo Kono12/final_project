@@ -29,11 +29,10 @@ class SaveReminderViewModelTest {
     // Executes each task synchronously using Architecture Components.
     @get:Rule
     var instantExecutorRule = InstantTaskExecutorRule()
-
     @get:Rule
     var mainCoroutine = MainCoroutine()
 
-
+    // to get new instance of view model in each test
     @Before
     fun setupViewModel() {
         reminderDataSource = FakeDataSource()
@@ -45,32 +44,39 @@ class SaveReminderViewModelTest {
 
     @Test
     fun shouldReturnError() = runBlockingTest {
+
+        //getting the result of the method validateEnterData with a testing data that has no title
         val result = saveReminderViewModel.validateEnteredData(createIncompleteReminderDataItem())
+        // this should be an error
         MatcherAssert.assertThat(result, CoreMatchers.`is`(false))
+
     }
 
     private fun createIncompleteReminderDataItem(): ReminderDataItem {
+        // creating fake reminder object
         return ReminderDataItem("", "description", "location", 31.00, 24.00)
     }
 
     @Test
     fun check_loading() = runBlockingTest {
-
+        //pausing our dispatcher so loading is visible
         mainCoroutine.pauseDispatcher()
         saveReminderViewModel.saveReminder(createFakeReminderDataItem())
-
+        //it should stay visible untill now
         MatcherAssert.assertThat(saveReminderViewModel.showLoading.value, CoreMatchers.`is`(true))
+        //after resuming loading should diappear
         mainCoroutine.resumeDispatcher()
         MatcherAssert.assertThat(saveReminderViewModel.showLoading.value, CoreMatchers.`is`(false))
     }
 
     private fun createFakeReminderDataItem(): ReminderDataItem {
-        return ReminderDataItem("", "description", "location", 31.00, 24.00)
+        return ReminderDataItem("hello", "description", "location", 31.00, 24.00)
 
     }
 
     @After
     fun tearDown() {
+        // to stop koin
         stopKoin()
     }
 }

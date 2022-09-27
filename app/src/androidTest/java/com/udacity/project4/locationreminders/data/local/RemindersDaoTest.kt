@@ -23,7 +23,7 @@ import org.junit.Test
 //Unit test the DAO
 @SmallTest
 class RemindersDaoTest {
-
+//comments done here (for me to not come back here)
 
     // Executes each task synchronously
     @get:Rule
@@ -34,26 +34,31 @@ class RemindersDaoTest {
     // Using an in memory database , the information stored here should disappears when the process is done
     @Before
     fun initDb() {
-        reminderDataBase = Room.inMemoryDatabaseBuilder(
-            ApplicationProvider.getApplicationContext(),
-            RemindersDatabase::class.java
-        ).build()
+        //making DB and using Application provider.getApplicationContext to get context
+        // and running it before every test
+        reminderDataBase = Room.inMemoryDatabaseBuilder(ApplicationProvider.getApplicationContext(), RemindersDatabase::class.java).build()
     }
 
-    //closes db
+    //closing the database after use and running it after every test
     @After
     fun closeDb() = reminderDataBase.close()
 
     @Test
     fun testInsertRetrieveData() = runBlockingTest {
 
+        //making object of ReminderDTD with these attributes for testing
         val data = ReminderDTO("title", "description", "location", 31.00, 24.00)
 
+            // saving the object into out DB
         reminderDataBase.reminderDao().saveReminder(data)
 
+        // getting the DB data inside list
         val List = reminderDataBase.reminderDao().getReminders()
+
+        // at this point here we just added one reminder so we should have size of 1
         MatcherAssert.assertThat(List.size, `is`(1))
 
+        //checking if that one reminder is the same reminder that we have just added
         val loadedData = List[0]
         MatcherAssert.assertThat(loadedData.id, `is`(data.id))
         MatcherAssert.assertThat(loadedData.title, `is`(data.title))
