@@ -1,6 +1,10 @@
 package com.udacity.project4.locationreminders.reminderslist
 
+import android.app.AlertDialog
 import android.app.Application
+import android.content.DialogInterface
+import android.text.InputType
+import android.widget.EditText
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.udacity.project4.base.BaseViewModel
@@ -16,10 +20,8 @@ class RemindersListViewModel(
     // list that holds the reminder data to be displayed on the UI
     val remindersList = MutableLiveData<List<ReminderDataItem>>()
 
-    /**
-     * Get all the reminders from the DataSource and add them to the remindersList to be shown on the UI,
-     * or show error if any
-     */
+    //Get all the reminders from the DataSource and add them to the remindersList to be shown on the UI,or show error if any
+
     fun loadReminders() {
         showLoading.value = true
         viewModelScope.launch {
@@ -51,10 +53,17 @@ class RemindersListViewModel(
         }
     }
 
-    /**
-     * Inform the user that there's not any data if the remindersList is empty
-     */
+
+     // Inform the user that there's not any data if the remindersList is empty
+
     private fun invalidateShowNoData() {
         showNoData.value = remindersList.value == null || remindersList.value!!.isEmpty()
+    }
+
+    fun removeAll(){
+        viewModelScope.launch {
+            dataSource.deleteAllReminders()
+            loadReminders()
+        }
     }
 }
