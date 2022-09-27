@@ -98,6 +98,7 @@ class ReminderListFragmentTest : AutoCloseKoinTest() {
         IdlingRegistry.getInstance().unregister(dataBindingIdlingResource)
     }
 
+    //testing navigations
     @Test
     fun testFragmentsNavigation() {
         val fragmentScenario = launchFragmentInContainer<ReminderListFragment>(Bundle(), R.style.AppTheme)
@@ -107,8 +108,6 @@ class ReminderListFragmentTest : AutoCloseKoinTest() {
         fragmentScenario.onFragment {
             Navigation.setViewNavController(it.view!!, navController)
         }
-
-
         Espresso.onView(withId(R.id.addReminderFAB)).perform(ViewActions.click())
         Mockito.verify(navController).navigate(ReminderListFragmentDirections.toSaveReminder())
     }

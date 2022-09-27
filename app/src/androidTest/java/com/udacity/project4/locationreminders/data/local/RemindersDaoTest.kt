@@ -31,15 +31,16 @@ class RemindersDaoTest {
 
     private lateinit var reminderDataBase: RemindersDatabase
 
+    // Using an in memory database , the information stored here should disappears when the process is done
     @Before
     fun initDb() {
-        // Using an in memory database , the information stored here should disappears when the process is done
         reminderDataBase = Room.inMemoryDatabaseBuilder(
             ApplicationProvider.getApplicationContext(),
             RemindersDatabase::class.java
         ).build()
     }
 
+    //closes db
     @After
     fun closeDb() = reminderDataBase.close()
 

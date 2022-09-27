@@ -24,7 +24,7 @@ import org.robolectric.annotation.Config
 @Config(sdk = [Build.VERSION_CODES.P])
 class RemindersListViewModelTest {
 
-    //TODO: provide testing to the RemindersListViewModel and its live data objects
+    //provide testing to the RemindersListViewModel and its data objects
     private lateinit var fakeDataSource: FakeDataSource
     private lateinit var remindersViewModel: RemindersListViewModel
 

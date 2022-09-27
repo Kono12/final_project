@@ -30,6 +30,7 @@ class RemindersLocalRepositoryTest {
     private lateinit var remindersDatabase: RemindersDatabase
     private lateinit var repository: RemindersLocalRepository
 
+    // Using an in memory database , the information stored here disappears when the process is finished.
     @Before
     fun setup() {
         // Using an in memory database , the information stored here disappears when the process is finished.
@@ -44,6 +45,8 @@ class RemindersLocalRepositoryTest {
     @After
     fun cleanUp() = remindersDatabase.close()
 
+
+    // runBlocking is used here because the job isn't completed yet
     @Test
     fun testInsertRetrieveData() = runBlocking {
 
