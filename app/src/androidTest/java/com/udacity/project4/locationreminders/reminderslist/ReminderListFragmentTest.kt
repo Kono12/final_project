@@ -56,20 +56,24 @@ class ReminderListFragmentTest : AutoCloseKoinTest() {
 
         // initialising the context object
         appContext = getApplicationContext()
-        //creating view models
+        //declaring module
         val modulee = module {
+            //instance of RemindersLinstViewModel
             viewModel {
 
                 RemindersListViewModel(appContext, get() as ReminderDataSource)
             }
+            //instance of SaveReminderViewModel
             single {
                 SaveReminderViewModel(appContext, get() as ReminderDataSource)
             }
+            //instance of  RemindersLocalRepository
             single { RemindersLocalRepository(get()) as ReminderDataSource }
+            //instance (returns dao)
             single { LocalDB.createRemindersDao(appContext) }
         }
 
-        //declaring new koin module
+        //starting koin with declared module
         startKoin {
             modules(listOf(modulee))
         }

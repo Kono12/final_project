@@ -36,10 +36,7 @@ class SaveReminderViewModelTest {
     @Before
     fun setupViewModel() {
         reminderDataSource = FakeDataSource()
-        saveReminderViewModel = SaveReminderViewModel(
-            ApplicationProvider.getApplicationContext(),
-            reminderDataSource
-        )
+        saveReminderViewModel = SaveReminderViewModel(ApplicationProvider.getApplicationContext(), reminderDataSource)
     }
 
     @Test

@@ -15,11 +15,13 @@ class MainCoroutine(
     val dispatcher: TestCoroutineDispatcher = TestCoroutineDispatcher()
 ) : TestWatcher(), TestCoroutineScope by TestCoroutineScope(dispatcher) {
 
+    //swapping dispatchers
     override fun starting(description: Description?) {
         super.starting(description)
         Dispatchers.setMain(dispatcher)
     }
 
+    //cleaning up again
     override fun finished(description: Description?) {
         super.finished(description)
         cleanupTestCoroutines()

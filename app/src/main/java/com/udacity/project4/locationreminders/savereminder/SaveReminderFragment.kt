@@ -17,12 +17,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import com.udacity.project4.BuildConfig
 import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
 import com.google.android.material.snackbar.Snackbar
-import com.udacity.project4.BuildConfig
 import com.udacity.project4.Constants
 import com.udacity.project4.R
 import com.udacity.project4.base.BaseFragment
@@ -200,15 +200,11 @@ class SaveReminderFragment : BaseFragment() {
             grantResults.isEmpty() ||
             grantResults[0] == PackageManager.PERMISSION_DENIED || (requestCode == 33 && grantResults[1] == PackageManager.PERMISSION_DENIED))
         {
-            Snackbar.make(
-                binding.reminderParent,
-                R.string.permission_denied_explanation,
-                Snackbar.LENGTH_INDEFINITE
-            )
+            Snackbar.make(binding.reminderParent, R.string.permission_denied_explanation, Snackbar.LENGTH_INDEFINITE)
                 .setAction(R.string.settings) {
                     startActivity(Intent().apply {
                         action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
-                        data = Uri.fromParts("package", BuildConfig.APPLICATION_ID, null)
+                        data = Uri.fromParts("package",  BuildConfig.APPLICATION_ID, null)
                         flags = Intent.FLAG_ACTIVITY_NEW_TASK
                     })
                 }.show()

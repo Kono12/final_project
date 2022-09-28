@@ -51,23 +51,25 @@ class RemindersActivityTest :
     fun init() {
         stopKoin()//stop the original app koin
         appContext = getApplicationContext()
+        //declaring module
         val myModule = module {
+            //instance of RemindersLinstViewModel
             viewModel {
-                RemindersListViewModel(
-                    appContext,
-                    get() as ReminderDataSource
-                )
+                RemindersListViewModel(appContext, get() as ReminderDataSource)
             }
+            //instance of SaveReminderViewModel
             single {
                 SaveReminderViewModel(
                     appContext,
                     get() as ReminderDataSource
                 )
             }
+            //instance of  RemindersLocalRepository
             single { RemindersLocalRepository(get()) as ReminderDataSource }
+            //instance (returns dao)
             single { LocalDB.createRemindersDao(appContext) }
         }
-        //declare a new koin module
+        //starting koin with declared module
         startKoin {
             modules(listOf(myModule))
         }
@@ -81,14 +83,14 @@ class RemindersActivityTest :
     }
 
 
-// run before each test
+    // run before each test
     @Before
     fun registerIdlingResource() {
         IdlingRegistry.getInstance().register(dataBindingIdlingResource)
     }
 
 
-     // Unregister your Idling Resource so it can be garbage collected and does not leak any memory.
+    // Unregister your Idling Resource so it can be garbage collected and does not leak any memory.
     @After
     fun unregisterIdlingResource() {
         IdlingRegistry.getInstance().unregister(dataBindingIdlingResource)
@@ -108,7 +110,7 @@ class RemindersActivityTest :
         Espresso.onView(ViewMatchers.withText(snackBarMessage))
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
 
-  //closing our activity after done
+        //closing our activity after done
         activityScenario.close()
     }
 
@@ -126,37 +128,45 @@ class RemindersActivityTest :
     @Test
     fun testReminderSavedToastMessage() {
         // openning activity RemindersActivity
-        val activityScenario  = ActivityScenario.launch(RemindersActivity::class.java)
-        dataBindingIdlingResource.monitorActivity(activityScenario )
+        val activityScenario = ActivityScenario.launch(RemindersActivity::class.java)
+        dataBindingIdlingResource.monitorActivity(activityScenario)
         // getting instance of it
         val activity = getActivity(activityScenario)
 
         //clicking add and entering all fields then clicking save
         Espresso.onView(ViewMatchers.withId(R.id.addReminderFAB)).perform(ViewActions.click())
-        Espresso.onView(ViewMatchers.withId(R.id.reminderTitle)).perform(ViewActions.typeText("Title"))
-        Espresso.onView(ViewMatchers.withId(R.id.reminderDescription)).perform(ViewActions.typeText("Description"))
+        Espresso.onView(ViewMatchers.withId(R.id.reminderTitle))
+            .perform(ViewActions.typeText("Title"))
+        Espresso.onView(ViewMatchers.withId(R.id.reminderDescription))
+            .perform(ViewActions.typeText("Description"))
         Espresso.closeSoftKeyboard()
-        Espresso.onView(ViewMatchers.withText("Title")).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        //maing sure it's the same fields we entered
+        Espresso.onView(ViewMatchers.withText("Title"))
+            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
         Espresso.onView(ViewMatchers.withText("Description")).check(
-            ViewAssertions.matches(
-                ViewMatchers.isDisplayed()))
-        Espresso.onView(ViewMatchers.withId(R.id.MyMap)).perform(ViewActions.longClick())
+            ViewAssertions.matches(ViewMatchers.isDisplayed())
+        )
+        //entering the location
         Espresso.onView(ViewMatchers.withId(R.id.selectLocation)).perform(ViewActions.click())
-        Espresso.onView(ViewMatchers.withId(R.id.saveReminder)).perform(ViewActions.click())
-        Espresso.onView(ViewMatchers.withId(R.id.BTN)).perform(ViewActions.click()) // save button on the map fragment
+        Espresso.onView(ViewMatchers.withId(R.id.MyMap)).perform(ViewActions.longClick())
+        Espresso.onView(ViewMatchers.withId(R.id.BTN))
+            .perform(ViewActions.click()) // save button from (select Location)
+        Espresso.onView(ViewMatchers.withId(R.id.saveReminder))
+            .perform(ViewActions.click()) // save from (save reminder fragment)
         // toast with message Reminder Saved !
         Espresso.onView(ViewMatchers.withText(R.string.reminder_saved)).inRoot(
             RootMatchers.withDecorView(
                 // matching toast token
                 CoreMatchers.not(CoreMatchers.`is`(activity?.window?.decorView))
-            ))
+            )
+        )
             .check(
                 ViewAssertions.matches(
                     // toast is displayed
                     ViewMatchers.isDisplayed()
                 )
             )
-      //closing it
+        //closing it
         activityScenario.close()
 
     }

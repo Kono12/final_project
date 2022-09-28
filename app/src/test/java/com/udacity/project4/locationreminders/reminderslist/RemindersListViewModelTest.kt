@@ -33,6 +33,7 @@ class RemindersListViewModelTest {
     @get:Rule
     var instantExecutorRule = InstantTaskExecutorRule()
 
+    // Set the main coroutines dispatcher for unit testing
     @get:Rule
     var mainCoroutine = MainCoroutine()
 
@@ -47,7 +48,8 @@ class RemindersListViewModelTest {
 
     @Test
     fun testShouldReturn_Error () = runBlockingTest  {
-
+        // now member found error is true so in tests we know an error should
+        //occur in this test
         fakeDataSource.setShouldReturnError(true)
         // creating reminder for testing
         saveReminderFakeData()
@@ -73,6 +75,7 @@ class RemindersListViewModelTest {
     }
 
     private suspend fun saveReminderFakeData() {
+        //saving reminder with test data
         fakeDataSource.saveReminder(ReminderDTO("title", "description", "location", 31.00, 24.00))
     }
 

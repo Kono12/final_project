@@ -142,13 +142,13 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback{
             myMarker!!.showInfoWindow()
         }
 
-        // todo: marker
+        // todo: poi marker
         map.setOnPoiClickListener { poi ->
             addPoiMarker(poi)
             myMarker!!.showInfoWindow()
         }
 
-        // map style
+        // todo: map style
          setMapStyle(map)
 
         var perm =ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
@@ -207,14 +207,8 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback{
 
     private fun setMapStyle(map: GoogleMap) {
         try {
-            // Customize the styling of the base map using a JSON object defined
-            // in a raw resource file.
-            val success = map.setMapStyle(
-                MapStyleOptions.loadRawResourceStyle(
-                    activity,
-                    R.raw.my_map
-                )
-            )
+                // my cutome style + I have changed the save button theme too
+            val style = map.setMapStyle(MapStyleOptions.loadRawResourceStyle(activity, R.raw.my_map))
         }catch (e:Exception){}
     }
 }

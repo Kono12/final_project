@@ -42,6 +42,7 @@ class ReminderListFragment : BaseFragment() {
 
         binding.refreshLayout.setOnRefreshListener { _viewModel.loadReminders() }
 
+        //a button that i have added to remove all reminders (not required)
         binding.removeallReminderFAB.setOnClickListener { dialog() }
         return binding.root
     }
@@ -100,7 +101,10 @@ class ReminderListFragment : BaseFragment() {
             R.id.logout -> {
                 editor.putBoolean("hasLogged",false)
                 editor.commit()
+
+                //to start fresh with the next user
                 _viewModel.removeAll()
+
                 val i = Intent(context,AuthenticationActivity::class.java)
                 startActivity(i)
                 activity!!.finish()
