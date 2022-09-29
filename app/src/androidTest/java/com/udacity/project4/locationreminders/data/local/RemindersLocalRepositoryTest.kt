@@ -55,7 +55,7 @@ class RemindersLocalRepositoryTest {
         // creating object to be added to our DB with testing attributes
         val data = ReminderDTO("title abc", "description abc", "location abc", 31.00, 24.00)
 
-            // adding this reminder object to the DB
+        // adding this reminder object to the DB
         repository.saveReminder(data)
 
         // getting our specific reminder
