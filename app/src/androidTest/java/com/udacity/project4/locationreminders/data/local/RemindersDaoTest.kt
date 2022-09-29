@@ -12,6 +12,7 @@ import org.junit.Rule;
 import org.junit.runner.RunWith;
 
 import kotlinx.coroutines.ExperimentalCoroutinesApi;
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runBlockingTest
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.MatcherAssert
@@ -68,5 +69,4 @@ class RemindersDaoTest {
         MatcherAssert.assertThat(loadedData.longitude, `is`(data.longitude))
 
     }
-
 }
