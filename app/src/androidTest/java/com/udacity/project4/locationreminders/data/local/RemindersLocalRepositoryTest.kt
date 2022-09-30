@@ -79,10 +79,10 @@ class RemindersLocalRepositoryTest {
     @Test
     fun testDataNotFound_returnError() = runBlocking {
         //we didn't add this id to our DB
-        val result = repository.getReminder("155")
-        val error = (result is Result.Error)
+        val result = repository.getReminder("155") as Result.Error
+        val error = result.message
         // there should be an error
-        MatcherAssert.assertThat(error, CoreMatchers.`is`(true))
+        MatcherAssert.assertThat(error, CoreMatchers.`is`("Reminder Doesn't Exist"))
     }
 
 }
